@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Api", "Hexpawn.Api\Hexpawn.Api.csproj", "{2541ECE6-D341-4C50-8865-DB98E0E03F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hexpawn.Api", "Hexpawn.Api\Hexpawn.Api.csproj", "{2541ECE6-D341-4C50-8865-DB98E0E03F6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Core.Logic", "Hexpawn.Core.Logic\Hexpawn.Core.Logic.csproj", "{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hexpawn.Core.Logic", "Hexpawn.Core.Logic\Hexpawn.Core.Logic.csproj", "{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Core.Models", "Hexpawn.Core.Models\Hexpawn.Core.Models.csproj", "{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hexpawn.Core.Models", "Hexpawn.Core.Models\Hexpawn.Core.Models.csproj", "{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Core.Persistance", "Hexpawn.Core.Persistance\Hexpawn.Core.Persistance.csproj", "{B26DB3E3-A234-43D0-B161-4D8850FB4652}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hexpawn.Core.Persistance", "Hexpawn.Core.Persistance\Hexpawn.Core.Persistance.csproj", "{B26DB3E3-A234-43D0-B161-4D8850FB4652}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "hexpawn.web", "Hexpawn.Web\hexpawn.web.esproj", "{73F9BD73-9CA7-45A9-A707-EA4575DB5872}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F9BD73-9CA7-45A9-A707-EA4575DB5872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F9BD73-9CA7-45A9-A707-EA4575DB5872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F9BD73-9CA7-45A9-A707-EA4575DB5872}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{73F9BD73-9CA7-45A9-A707-EA4575DB5872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F9BD73-9CA7-45A9-A707-EA4575DB5872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F9BD73-9CA7-45A9-A707-EA4575DB5872}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
