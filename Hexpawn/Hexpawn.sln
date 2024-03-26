@@ -5,6 +5,12 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Api", "Hexpawn.Api\Hexpawn.Api.csproj", "{2541ECE6-D341-4C50-8865-DB98E0E03F6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Core.Logic", "Hexpawn.Core.Logic\Hexpawn.Core.Logic.csproj", "{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Core.Models", "Hexpawn.Core.Models\Hexpawn.Core.Models.csproj", "{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexpawn.Core.Persistance", "Hexpawn.Core.Persistance\Hexpawn.Core.Persistance.csproj", "{B26DB3E3-A234-43D0-B161-4D8850FB4652}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{2541ECE6-D341-4C50-8865-DB98E0E03F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2541ECE6-D341-4C50-8865-DB98E0E03F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2541ECE6-D341-4C50-8865-DB98E0E03F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AACC491D-51DE-4BC6-ADF9-5DB4C7E8B528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D2F0EF-5F62-4A81-A310-A04DE5919AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B26DB3E3-A234-43D0-B161-4D8850FB4652}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
