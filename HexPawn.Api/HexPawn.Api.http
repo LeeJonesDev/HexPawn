@@ -1,6 +1,3 @@
 @HexPawn.Api_HostAddress = http://localhost:5020
 
-GET {{HexPawn.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
