@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexPawn.Api", "HexPawn.Api\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexPawn.Test", "HexPawn.Test\HexPawn.Test.csproj", "{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexPawn.Services", "HexPawn.Services\HexPawn.Services.csproj", "{E30CD8F6-C35D-49B7-BC26-A2364D7D91CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E30CD8F6-C35D-49B7-BC26-A2364D7D91CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30CD8F6-C35D-49B7-BC26-A2364D7D91CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30CD8F6-C35D-49B7-BC26-A2364D7D91CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30CD8F6-C35D-49B7-BC26-A2364D7D91CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
