@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexPawn.Api", "HexPawn.Api\HexPawn.Api.csproj", "{A0F2380F-69E0-4E2E-BB45-1F025A96EBC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexPawn.Test", "HexPawn.Test\HexPawn.Test.csproj", "{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A0F2380F-69E0-4E2E-BB45-1F025A96EBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0F2380F-69E0-4E2E-BB45-1F025A96EBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0F2380F-69E0-4E2E-BB45-1F025A96EBC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90DE5581-3356-4AB7-8AF3-CC84FF6864FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
