@@ -1,7 +1,7 @@
 using HexPawn.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HexPawn.Configuration;
+namespace HexPawn.Configuration.Database;
 
 public sealed class ApplicationDbContext : DbContext
 {

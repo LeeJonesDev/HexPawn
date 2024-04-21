@@ -1,11 +1,8 @@
-namespace HexPawn.Configuration;
+namespace HexPawn.Configuration.Database;
 
 public enum ConnectionStringNames
 {
-    LocalHost,
     Development,
-    Testing,
     Staging,
-    Uat,
     Production
 }

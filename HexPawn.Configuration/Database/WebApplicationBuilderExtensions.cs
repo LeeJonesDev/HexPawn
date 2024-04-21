@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HexPawn.Configuration;
+namespace HexPawn.Configuration.Database;
 
 public static class WebApplicationBuilderExtensions
 {
@@ -19,22 +19,23 @@ public static class WebApplicationBuilderExtensions
         // get the connection name that matches the environment
         var connectionName = Enum
             .GetNames<ConnectionStringNames>()
-            .FirstOrDefault(conn => conn.StartsWith(env));
+            .FirstOrDefault(conn => conn.StartsWith(env))
+            ?.ToString();
 
         if (connectionName == null)
         {
             throw new NullReferenceException($"Unable to match environment and an expected connection name from {nameof(ConnectionStringNames)} enum.");
         }
 
-        // get the connection string from secrets (populated by railway cli, see README)
+        // get the connection string by the connection name from either AppSettings or UserSecrets
         var connectionString = webApplicationBuilder.Configuration.GetConnectionString(connectionName);
 
         if (connectionString == null)
         {
-            throw new NullReferenceException("Missing Connection string value in user secrets. Is railway linked? Have you added your secrets?");
+            throw new NullReferenceException("Missing Connection string value in ConnectionStrings. add it in either AppSettings or in UserSecrets.");
         }
 
-        // set up db context
+        // set up db context with the connection using postgres db
         webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
             options
                 .UseNpgsql(webApplicationBuilder.Configuration.GetConnectionString(connectionString))
