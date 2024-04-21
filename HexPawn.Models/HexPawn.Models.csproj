@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\HexPawn.Models\HexPawn.Models.csproj" />
-    </ItemGroup>
-
 </Project>
