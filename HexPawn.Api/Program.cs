@@ -1,4 +1,4 @@
-using HexPawn.Configuration;
+using HexPawn.Configuration.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
