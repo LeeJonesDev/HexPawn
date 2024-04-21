@@ -8,3 +8,8 @@
 - Custom configuration setup / project
 - Libraries required for code first patterns
 - Libraries required for testing frameworks
+
+## v0.0.2
+
+### Added
+- Initial EF Migration
