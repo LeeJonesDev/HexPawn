@@ -21,3 +21,13 @@
 - "Server=localhost;Port=5432;Database=localDb;Userid=postgres;Password=admin;"
 - refactor configuration to take in either appsettings or usersecrets and be more generic
 - adding base entity repository
+
+# Database Migrations
+
+## run initial database migration 
+
+ran this script from the root directory
+
+```bash
+dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration --context ApplicationDbContext --json
+```
