@@ -13,10 +13,10 @@ log of dev tasks (optional by dev), to record the dev process
 
 # Database Migrations
 
-## ran initial database migration
+## run initial database migration
 
 ran this script from the root directory
 
 ```bash
- dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration  --output-dir "../HexPawn.Data/Migrations" --context ApplicationDbContext --json
+ dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration  --output-dir "../HexPawn.Api/Migrations" --context ApplicationDbContext --json
 ```

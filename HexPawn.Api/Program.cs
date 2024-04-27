@@ -3,15 +3,18 @@ using HexPawn.Configuration.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region Custom Builder Configurations
+
 builder.AddDbContext();
 builder.AddServices();
+
+#endregion Custom Builder Configurations
 
 var app = builder.Build();
 
