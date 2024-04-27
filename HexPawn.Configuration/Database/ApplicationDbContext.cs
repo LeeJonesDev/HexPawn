@@ -40,8 +40,6 @@ public sealed class ApplicationDbContext : DbContext
                     .HasIndex(nameof(TBaseEntity.UniqueId))
                     .IsUnique();
             }
-
-
         }
 
         base.OnModelCreating(modelBuilder);
