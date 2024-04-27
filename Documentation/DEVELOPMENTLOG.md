@@ -20,7 +20,6 @@
 - create empty db named localDb with the password admin like below
 - "Server=localhost;Port=5432;Database=localDb;Userid=postgres;Password=admin;"
 - refactor configuration to take in either appsettings or usersecrets and be more generic
-- adding base entity repository
 
 # Database Migrations
 
@@ -29,5 +28,8 @@
 ran this script from the root directory
 
 ```bash
- dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration  --output-dir "../HexPawn.Data/Migrations" --context ApplicationDbContext --json
+ dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration  --output-dir "../HexPawn.Api/Migrations" --context ApplicationDbContext --json
 ```
+
+- Add Repository for base entities
+- Add Service Registration Extension in configuration
