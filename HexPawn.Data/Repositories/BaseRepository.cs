@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace HexPawn.Data.Repositories;
 
 public class BaseRepository<T>(ApplicationDbContext applicationDbContext) : IBaseRepository<T>
-    where T : BaseEntity
+    where T : TBaseEntity
 {
-    private readonly DbSet<BaseEntity> DataSet = applicationDbContext.Set<BaseEntity>();
+    private readonly DbSet<TBaseEntity> DataSet = applicationDbContext.Set<TBaseEntity>();
 
 
     public virtual IQueryable<T>? Id(int id) => DataSet.Where(entity => entity.Id == id) as IQueryable<T>;
     public virtual IQueryable<T>? UniqueId(int uniqueId) => DataSet.Where(entity => entity.Id == uniqueId) as IQueryable<T>;
     public virtual IQueryable<T>? All() => DataSet as IQueryable<T>;
 
-    public virtual async Task<EntityEntry<BaseEntity>> CreateAsync(BaseEntity entity) => await DataSet.AddAsync(entity);
-    public virtual EntityEntry<BaseEntity> Update(T entity) => DataSet.Update(entity);
-    public virtual EntityEntry<BaseEntity> Delete(T entity) => DataSet.Remove(entity);
+    public virtual async Task<EntityEntry<TBaseEntity>> CreateAsync(TBaseEntity entity) => await DataSet.AddAsync(entity);
+    public virtual EntityEntry<TBaseEntity> Update(T entity) => DataSet.Update(entity);
+    public virtual EntityEntry<TBaseEntity> Delete(T entity) => DataSet.Remove(entity);
     public virtual void DeleteRange(IEnumerable<T> entities) => DataSet.RemoveRange(entities);
 }

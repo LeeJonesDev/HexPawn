@@ -5,7 +5,7 @@ namespace HexPawn.Models;
 /// <summary>
 /// Any model inheriting this class will be regestered as an entity in Entity Framework at App Startup in the ApplicationDbContext
 /// </summary>
-public abstract class BaseEntity
+public abstract class TBaseEntity
 {
     [Key]
     public int? Id { get; set; }

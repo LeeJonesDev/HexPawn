@@ -1,4 +1,6 @@
 using HexPawn.Configuration.Database;
+using HexPawn.Data.Repositories;
+using HexPawn.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,23 @@ builder.Services.AddSwaggerGen();
 
 // build db context and set up entity framework
 builder.AddDbContext();
+
+
+
+// var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+// foreach (var assembly in assemblies)
+// {
+//     var repositories = assembly
+//         .GetTypes()
+//         .Where(t =>
+//             t.GetInterface(nameof(IBaseRepository<T>)) != null &&
+//             !t.IsInterface);
+//     foreach (var repository in repositories)
+//     {
+//         builder.Services.AddTransient<IBaseRepository, repository> ();
+//     }
+// }
+
 
 var app = builder.Build();
 

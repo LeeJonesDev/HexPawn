@@ -1,3 +1,4 @@
+using System.Reflection;
 using HexPawn.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ public sealed class ApplicationDbContext : DbContext
             var types = assembly
                 .GetTypes()
                 .Where(t =>
-                    t.IsSubclassOf(typeof(BaseEntity)) &&
+                    t.IsSubclassOf(typeof(TBaseEntity)) &&
                     !t.IsAbstract);
 
             foreach (var baseEntityType in types)
@@ -36,9 +37,11 @@ public sealed class ApplicationDbContext : DbContext
                     // register the entity
                     .Entity(baseEntityType)
                     // Set unique constraints
-                    .HasIndex(nameof(BaseEntity.UniqueId))
+                    .HasIndex(nameof(TBaseEntity.UniqueId))
                     .IsUnique();
             }
+
+
         }
 
         base.OnModelCreating(modelBuilder);
