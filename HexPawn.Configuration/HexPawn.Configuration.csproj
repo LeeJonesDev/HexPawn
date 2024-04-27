@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HexPawn.Data\HexPawn.Data.csproj" />
       <ProjectReference Include="..\HexPawn.Models\HexPawn.Models.csproj" />
     </ItemGroup>
 

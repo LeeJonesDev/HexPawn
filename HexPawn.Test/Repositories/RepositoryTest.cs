@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace HexPawn.Test.Repositories;
 
-[TestSubject(typeof(Repository<TBaseEntity>))]
+[TestSubject(typeof(Repository<BaseEntity>))]
 public class RepositoryTest
 {
 

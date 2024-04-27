@@ -39,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HexPawn.Configuration\HexPawn.Configuration.csproj" />
       <ProjectReference Include="..\HexPawn.Services\HexPawn.Services.csproj" />
     </ItemGroup>
 

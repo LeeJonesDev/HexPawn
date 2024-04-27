@@ -29,5 +29,5 @@
 ran this script from the root directory
 
 ```bash
- dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration  --output-dir "../HexPawn.Data/Migrations" --context ApplicationDbContext --json
+ dotnet ef migrations add InitialCreate --startup-project Hexpawn.Api --project HexPawn.Configuration  --output-dir "/Migrations" --context ApplicationDbContext --json
 ```

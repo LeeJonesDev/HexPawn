@@ -28,7 +28,7 @@ public sealed class ApplicationDbContext : DbContext
             var types = assembly
                 .GetTypes()
                 .Where(t =>
-                    t.IsSubclassOf(typeof(TBaseEntity)) &&
+                    t.IsSubclassOf(typeof(BaseEntity)) &&
                     !t.IsAbstract);
 
             foreach (var baseEntityType in types)
@@ -37,7 +37,7 @@ public sealed class ApplicationDbContext : DbContext
                     // register the entity
                     .Entity(baseEntityType)
                     // Set unique constraints
-                    .HasIndex(nameof(TBaseEntity.UniqueId))
+                    .HasIndex(nameof(BaseEntity.UniqueId))
                     .IsUnique();
             }
         }

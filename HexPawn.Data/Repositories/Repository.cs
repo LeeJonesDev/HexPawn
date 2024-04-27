@@ -1,10 +1,10 @@
 using System.Linq.Expressions;
+using HexPawn.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HexPawn.Data.Repositories;
 
-public class Repository<TBaseEntity>(DbContext context)
-    where TBaseEntity : class
+public class Repository<TBaseEntity>(DbContext context) where TBaseEntity : BaseEntity
 {
     private readonly DbSet<TBaseEntity> _dbSet = context.Set<TBaseEntity>();
     private static readonly char[] separator = [','];
