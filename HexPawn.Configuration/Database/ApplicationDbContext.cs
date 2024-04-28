@@ -1,4 +1,5 @@
 using HexPawn.Models;
+using HexPawn.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HexPawn.Configuration.Database;
@@ -43,4 +44,7 @@ public sealed class ApplicationDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
     }
+
+    public DbSet<Player> Players { get; set; }
+    public DbSet<Character> Characters { get; set; }
 }
