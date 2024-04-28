@@ -22,6 +22,7 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
             query = query.Where(filter);
         }
 
+        //TODO: includes need to be better
         query = includeProperties?.Split(separator, StringSplitOptions.RemoveEmptyEntries)
             .Aggregate(query, (current, includeProperty) =>
                 current.Include(includeProperty));
