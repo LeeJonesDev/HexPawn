@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using HexPawn.Data.Repositories.Interfaces;
 using HexPawn.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace HexPawn.Data.Repositories;
 
@@ -9,6 +10,38 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
 {
     private readonly DbSet<TBaseEntity>? _dbSet = context.Set<TBaseEntity>();
     private static readonly char[] separator = [','];
+
+
+
+
+    /// <summary>
+    /// This method does not pull out all EF functions, but makes includes easier
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <param name="orderBy"></param>
+    /// <param name="include"></param>
+    /// <typeparam name="TResult"></typeparam>
+    /// <returns></returns>
+    // public virtual IOrderedQueryable<TBaseEntity>? Get2(
+    //     Expression<Func<TBaseEntity, bool>>? filter = null,
+    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
+    //     Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null,
+    //     Expression<Func<TEntity, TResult>> selector)
+    // {
+    //     IQueryable<TBaseEntity>? query = _dbSet;
+    //
+    //     query = include?.Invoke(query);
+    //
+    //     if (filter != null)
+    //     {
+    //         query = query.Where(filter);
+    //     }
+    //
+    //     return orderBy != null && query != null
+    //         ? orderBy(query)
+    //         : query as IOrderedQueryable<TBaseEntity>;
+    // }
+
 
     public virtual IEnumerable<TBaseEntity> Get(
         Expression<Func<TBaseEntity, bool>>? filter = null,
@@ -27,8 +60,12 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
             .Aggregate(query, (current, includeProperty) =>
                 current.Include(includeProperty));
 
+        //query = query
+
         return orderBy != null ? orderBy(query).ToList() : query.ToList();
     }
+
+
 
     public virtual async Task<TBaseEntity?> GetByIDAsync(int id)
     {

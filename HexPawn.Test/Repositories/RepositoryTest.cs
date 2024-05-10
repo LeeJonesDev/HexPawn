@@ -1,5 +1,6 @@
 using HexPawn.Data.Repositories;
 using HexPawn.Models;
+using HexPawn.Models.Entities;
 using JetBrains.Annotations;
 
 
@@ -62,5 +63,13 @@ public class RepositoryTest : IClassFixture<RepositoryTestFixture>
     public void METHOD()
     {
 
+    }
+
+    [Fact]
+    public void AlternateGet()
+    {
+        var all = _fixture.PlayerRepository.Get2();
+        Assert.NotNull(all);
+        Assert.Equal(all.Count(), 3);
     }
 }
