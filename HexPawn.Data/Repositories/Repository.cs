@@ -10,6 +10,8 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
 {
     private readonly DbSet<TBaseEntity>? _dbSet = context.Set<TBaseEntity>();
 
+    #region Where
+
     /// <summary>
     /// Perform a Where filter on the dbset while respecting soft deletes
     /// </summary>
@@ -25,6 +27,8 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
 
         return where;
     }
+
+    #endregion
 
     #region First
 

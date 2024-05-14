@@ -1,9 +1,7 @@
 using System.Linq.Expressions;
 using HexPawn.Data.Repositories;
 using HexPawn.Data.Repositories.Interfaces;
-using HexPawn.Models;
 using HexPawn.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace HexPawn.Test.Repositories;
@@ -89,25 +87,240 @@ internal class MockPlayerRepository
     {
         var repository = new Mock<IRepository<Player>>();
 
-        // where
+        #region Where
+
         repository
             .Setup(r => r.Where(
                 It.IsAny<Expression<Func<Player, bool>>>(),
                 It.IsAny<bool?>()))
-            .Returns(IQueryable<Player> (Expression<Func<Player,
-                bool>> filter, bool? includeDeleted = false) =>
-        {
-            var queryable = Players
+            .Returns(IQueryable<Player>
+                (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var where = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Where(filter);
 
-                .AsQueryable()
-                .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
-                .Where(filter);
+                return where;
+            });
 
-            return queryable;
-        });
+        #endregion
 
+        #region First
 
+        repository
+            .Setup(r => r.First(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(Player
+                (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var first = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .First(filter);
 
+                return first;
+            });
+
+        repository
+            .Setup(r => r.FirstOrDefault(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(Player?
+            (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var firstOrDefault = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .FirstOrDefault(filter);
+
+                return firstOrDefault;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.FirstAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(Player
+                (Expression<Func<Player, bool>> filter,
+                    bool? includeDeleted = false,
+                    CancellationToken cancellationToken = default) =>
+            {
+                var first =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .First(filter);
+
+                return first;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.FirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(Player?
+            (Expression<Func<Player, bool>> filter,
+                bool? includeDeleted = false,
+                CancellationToken cancellationToken = default) =>
+            {
+                var first =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .FirstOrDefault(filter);
+
+                return first;
+            });
+
+        #endregion
+
+        #region Single
+
+        repository
+            .Setup(r => r.Single(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(Player
+                (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var first = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Single(filter);
+
+                return first;
+            });
+
+        repository
+            .Setup(r => r.SingleOrDefault(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(Player?
+            (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var firstOrDefault = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .SingleOrDefault(filter);
+
+                return firstOrDefault;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.SingleAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(Player
+                (Expression<Func<Player, bool>> filter,
+                    bool? includeDeleted = false,
+                    CancellationToken cancellationToken = default) =>
+            {
+                var first =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Single(filter);
+
+                return first;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.SingleOrDefaultAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(Player?
+            (Expression<Func<Player, bool>> filter,
+                bool? includeDeleted = false,
+                CancellationToken cancellationToken = default) =>
+            {
+                var first =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .SingleOrDefault(filter);
+
+                return first;
+            });
+
+        #endregion
+
+        #region Last
+
+        repository
+            .Setup(r => r.Last(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(Player
+                (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var first = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Last(filter);
+
+                return first;
+            });
+
+        repository
+            .Setup(r => r.LastOrDefault(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(Player?
+            (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var firstOrDefault = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .LastOrDefault(filter);
+
+                return firstOrDefault;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.LastAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(Player
+                (Expression<Func<Player, bool>> filter,
+                    bool? includeDeleted = false,
+                    CancellationToken cancellationToken = default) =>
+            {
+                var first =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Last(filter);
+
+                return first;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.LastOrDefaultAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(Player?
+            (Expression<Func<Player, bool>> filter,
+                bool? includeDeleted = false,
+                CancellationToken cancellationToken = default) =>
+            {
+                var first =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .LastOrDefault(filter);
+
+                return first;
+            });
+
+        #endregion
 
 
 

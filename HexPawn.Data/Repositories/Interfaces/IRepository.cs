@@ -1,29 +1,67 @@
 using System.Linq.Expressions;
 using HexPawn.Models;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace HexPawn.Data.Repositories.Interfaces;
 
 public interface IRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
+    #region Where
+
     IQueryable<TBaseEntity>
-        Where(Expression<Func<TBaseEntity, bool>> filter,
-            bool? includeDeleted = false);
+            Where(Expression<Func<TBaseEntity, bool>> filter,
+                bool? includeDeleted = false);
+
+    #endregion
+
+    #region First
+
+    TBaseEntity First(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    TBaseEntity? FirstOrDefault(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    Task<TBaseEntity> FirstAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    Task<TBaseEntity?> FirstOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
 
 
+    #endregion
 
-    // IOrderedQueryable<TBaseEntity>? Get2(
-    //     Expression<Func<TBaseEntity, bool>>? filter = null,
-    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-    //     Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null);
+    #region Single
 
-    // IQueryable<TBaseEntity> Get2(
-    //     Expression<Func<TBaseEntity, bool>>? filter = null,
-    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null);
-    // IEnumerable<TBaseEntity> Get(
-    //     Expression<Func<TBaseEntity, bool>>? filter = null,
-    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-    //     string? includeProperties = "");
+    TBaseEntity Single(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    TBaseEntity? SingleOrDefault(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    Task<TBaseEntity> SingleAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    Task<TBaseEntity?> SingleOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    #endregion
+
+    #region Last
+
+    TBaseEntity Last(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    TBaseEntity? LastOrDefault(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    Task<TBaseEntity> LastAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    Task<TBaseEntity?> LastOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    #endregion
+
     Task<TBaseEntity?> GetByIDAsync(int id);
     Task<TBaseEntity?> GetByUniqueIdAsync(string id);
     Task InsertAsync(TBaseEntity entity);
