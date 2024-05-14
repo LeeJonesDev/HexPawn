@@ -2,7 +2,6 @@ using System.Linq.Expressions;
 using HexPawn.Data.Repositories.Interfaces;
 using HexPawn.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace HexPawn.Data.Repositories;
 
@@ -11,99 +10,49 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     private readonly DbSet<TBaseEntity>? _dbSet = context.Set<TBaseEntity>();
     private static readonly char[] separator = [','];
 
-    //
-    // public virtual IQueryable<TBaseEntity> Get2(
-    //     Expression<Func<TBaseEntity, bool>>? filter = null)
-    // {
-    //     IQueryable<TBaseEntity>? query = _dbSet;
-    //
-    //     if (filter != null)
-    //     {
-    //         query = query.Where(filter);
-    //     };
-    // };
-    
-    // /// <summary>
-    // /// This method does not pull out all EF functions, but makes includes easier
-    // /// </summary>
-    // /// <param name="filter"></param>
-    // /// <param name="orderBy"></param>
-    // /// <param name="include"></param>
-    // /// <typeparam name="TResult"></typeparam>
-    // /// <returns></returns>
-    // public virtual IOrderedQueryable<TBaseEntity>? Get2(
-    //     Expression<Func<TBaseEntity, bool>>? filter = null,
-    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-    //     Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null)
-    // {
-    //     IQueryable<TBaseEntity>? query = _dbSet;
-    //
-    //     query = include?.Invoke(query);
-    //
-    //     if (filter != null)
-    //     {
-    //         query = query.Where(filter);
-    //     }
-    //
-    //     return orderBy != null && query != null
-    //         ? orderBy(query)
-    //         : query as IOrderedQueryable<TBaseEntity>;
-    // }
-
-
-
     /// <summary>
-    /// Perform a Where clause on the dbset while respecting soft deletes
+    /// Perform a Where filter on the dbset while respecting soft deletes
     /// </summary>
     /// <param name="filter"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public virtual IQueryable<TBaseEntity>?
+    public virtual IQueryable<TBaseEntity>
         Where(Expression<Func<TBaseEntity, bool>> filter,
             bool? includeDeleted = false)
     {
-        IQueryable<TBaseEntity>? query = _dbSet;
-
-        query = query?
-            .Where(be =>
-                (
-                    includeDeleted.HasValue &&
-                    includeDeleted.Value == true &&
-                    be.DeletedAt != null
-                )
-                ||
-                !includeDeleted.HasValue ||
-                (
-                    !includeDeleted.Value &&
-                    be.DeletedAt == null
-                )
-            )
+        IQueryable<TBaseEntity> queryable = _dbSet
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .Where(filter);
 
-        return query;
+        return queryable;
     }
 
 
-
-    public virtual IEnumerable<TBaseEntity> Get(
-        Expression<Func<TBaseEntity, bool>>? filter = null,
-        Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-        string? includeProperties = "")
-    {
-        IQueryable<TBaseEntity>? query = _dbSet;
-
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
-
-        //TODO: includes need to be better
-        query = includeProperties?.Split(separator, StringSplitOptions.RemoveEmptyEntries)
-            .Aggregate(query, (current, includeProperty) =>
-                current.Include(includeProperty));
-
-        return orderBy != null ? orderBy(query).ToList() : query.ToList();
-    }
+    //single
+    //singleordefault
+    //any
+    //count
+    //all
+    //contains
+    //first
+    //firstordefault
+    //last
+    //lastordefault
+    //min
+    //minby
+    //max
+    //maxby
+    //avg
+    //orderby
+    //orderbydescending
+    //select
+    //selectmany
+    //sum
+    //to list
+    //to array
+    //to dictionary
+    //takewhile
+    //to lookup
 
 
 
@@ -111,6 +60,7 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     {
         return await _dbSet.FindAsync(id);
     }
+
 
     public virtual async Task<TBaseEntity?> GetByUniqueIdAsync(string id)
     {

@@ -6,12 +6,12 @@ namespace HexPawn.Data.Repositories.Interfaces;
 
 public interface IRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
-    IQueryable<TBaseEntity>?
+    IQueryable<TBaseEntity>
         Where(Expression<Func<TBaseEntity, bool>> filter,
             bool? includeDeleted = false);
-    
-    
-    
+
+
+
     // IOrderedQueryable<TBaseEntity>? Get2(
     //     Expression<Func<TBaseEntity, bool>>? filter = null,
     //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
@@ -20,10 +20,10 @@ public interface IRepository<TBaseEntity> where TBaseEntity : BaseEntity
     // IQueryable<TBaseEntity> Get2(
     //     Expression<Func<TBaseEntity, bool>>? filter = null,
     //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null);
-    IEnumerable<TBaseEntity> Get(
-        Expression<Func<TBaseEntity, bool>>? filter = null,
-        Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-        string? includeProperties = "");
+    // IEnumerable<TBaseEntity> Get(
+    //     Expression<Func<TBaseEntity, bool>>? filter = null,
+    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
+    //     string? includeProperties = "");
     Task<TBaseEntity?> GetByIDAsync(int id);
     Task<TBaseEntity?> GetByUniqueIdAsync(string id);
     Task InsertAsync(TBaseEntity entity);

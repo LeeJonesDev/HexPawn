@@ -1,5 +1,7 @@
 using System.Linq.Expressions;
+using HexPawn.Data.Repositories;
 using HexPawn.Data.Repositories.Interfaces;
+using HexPawn.Models;
 using HexPawn.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -87,64 +89,55 @@ internal class MockPlayerRepository
     {
         var repository = new Mock<IRepository<Player>>();
 
-        char[] separator = [','];
-        
+        //char[] separator = [','];
 
-        // get
-        repository
-            .Setup(r => r.Get(
-                It.IsAny<Expression<Func<Player, bool>>>(),
-                It.IsAny<Func<IQueryable<Player>, IOrderedQueryable<Player>>>(),
-                It.IsAny<string>()))
-            .Returns(IEnumerable<Player> (
-                Expression<Func<Player, bool>>? filter = null,
-                Func<IQueryable<Player>, IOrderedQueryable<Player>>? orderBy = null,
-                string? includeProperties = "") =>
-            {
-                var query = Players;
-                var queryable = query.AsQueryable();
-                queryable = filter != null ? queryable.Where(filter) : queryable;
-                queryable = includeProperties?.Split(separator, StringSplitOptions.RemoveEmptyEntries).Aggregate(queryable, (current, s) => current.Include(s));
-                    return (orderBy != null && queryable != null
-                               ? orderBy(queryable).ToList()
-                               : queryable?.ToList())
-                           ?? [];
-            });
+        //
+        // // get
+        // repository
+        //     .Setup(r => r.Get(
+        //         It.IsAny<Expression<Func<Player, bool>>>(),
+        //         It.IsAny<Func<IQueryable<Player>, IOrderedQueryable<Player>>>(),
+        //         It.IsAny<string>()))
+        //     .Returns(IEnumerable<Player> (
+        //         Expression<Func<Player, bool>>? filter = null,
+        //         Func<IQueryable<Player>, IOrderedQueryable<Player>>? orderBy = null,
+        //         string? includeProperties = "") =>
+        //     {
+        //         var query = Players;
+        //         var queryable = query.AsQueryable();
+        //         queryable = filter != null ? queryable.Where(filter) : queryable;
+        //         queryable = includeProperties?.Split(separator, StringSplitOptions.RemoveEmptyEntries).Aggregate(queryable, (current, s) => current.Include(s));
+        //             return (orderBy != null && queryable != null
+        //                        ? orderBy(queryable).ToList()
+        //                        : queryable?.ToList())
+        //                    ?? [];
+        //     });
 
-        
-        
-        
+
+
+
         // where
         repository
-            .Setup(r => r.Where(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<bool?>()))
-            .Returns(IQueryable<Player> (Expression<Func<Player, bool>> filter, bool? includeDeleted ) =>
+            .Setup(r => r.Where(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(IQueryable<Player> (Expression<Func<Player,
+                bool>> filter, bool? includeDeleted = false) =>
         {
-            var query = Players;
-            var queryable = query.AsQueryable();
-            queryable =  queryable
-                .Where(be =>
-                    (
-                        includeDeleted.HasValue &&
-                        includeDeleted.Value == true &&
-                        be.DeletedAt != null
-                    )
-                    ||
-                    !includeDeleted.HasValue ||
-                    (
-                        !includeDeleted.Value &&
-                        be.DeletedAt == null
-                    )
-                )
+            var queryable = Players
+
+                .AsQueryable()
+                .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                 .Where(filter);
-            
+
             return queryable;
         });
 
-        
-        
-        
-        
-        
+
+
+
+
+
         repository
             .Setup(r => r.GetByIDAsync(It.IsAny<int>()).Result)
             .Returns((int id) => Players.FirstOrDefault(p => p.Id == id));

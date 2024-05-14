@@ -21,11 +21,31 @@ public static class RepositoryExtensions
         Expression<Func<BaseEntity, bool>> expression = x =>
             (x.DeletedAt == null && x.UpdatedOn >= dateTime)
             || (
-                includeDeleted.HasValue && 
-                !includeDeleted.Value &&  
+                includeDeleted.HasValue &&
+                !includeDeleted.Value &&
                 x.DeletedAt != null &&
                 x.DeletedAt >= dateTime);
-        
+
+        return expression;
+    }
+
+
+    public static Expression<Func<TBaseEntity, bool>> FilterSoftDeletes<TBaseEntity>
+        (bool? includeDeleted = false) where TBaseEntity : BaseEntity
+    {
+        Expression<Func<TBaseEntity, bool>> expression = be =>
+            (
+                includeDeleted.HasValue &&
+                includeDeleted.Value == true &&
+                be.DeletedAt != null
+            )
+            ||
+            !includeDeleted.HasValue ||
+            (
+                !includeDeleted.Value &&
+                be.DeletedAt == null
+            );
+
         return expression;
     }
 }
