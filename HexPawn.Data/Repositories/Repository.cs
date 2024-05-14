@@ -11,22 +11,30 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     private readonly DbSet<TBaseEntity>? _dbSet = context.Set<TBaseEntity>();
     private static readonly char[] separator = [','];
 
-
-
-
-    /// <summary>
-    /// This method does not pull out all EF functions, but makes includes easier
-    /// </summary>
-    /// <param name="filter"></param>
-    /// <param name="orderBy"></param>
-    /// <param name="include"></param>
-    /// <typeparam name="TResult"></typeparam>
-    /// <returns></returns>
+    //
+    // public virtual IQueryable<TBaseEntity> Get2(
+    //     Expression<Func<TBaseEntity, bool>>? filter = null)
+    // {
+    //     IQueryable<TBaseEntity>? query = _dbSet;
+    //
+    //     if (filter != null)
+    //     {
+    //         query = query.Where(filter);
+    //     };
+    // };
+    
+    // /// <summary>
+    // /// This method does not pull out all EF functions, but makes includes easier
+    // /// </summary>
+    // /// <param name="filter"></param>
+    // /// <param name="orderBy"></param>
+    // /// <param name="include"></param>
+    // /// <typeparam name="TResult"></typeparam>
+    // /// <returns></returns>
     // public virtual IOrderedQueryable<TBaseEntity>? Get2(
     //     Expression<Func<TBaseEntity, bool>>? filter = null,
     //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-    //     Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null,
-    //     Expression<Func<TEntity, TResult>> selector)
+    //     Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null)
     // {
     //     IQueryable<TBaseEntity>? query = _dbSet;
     //
@@ -41,6 +49,40 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     //         ? orderBy(query)
     //         : query as IOrderedQueryable<TBaseEntity>;
     // }
+
+
+
+    /// <summary>
+    /// Perform a Where clause on the dbset while respecting soft deletes
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <param name="includeDeleted"></param>
+    /// <returns></returns>
+    public virtual IQueryable<TBaseEntity>?
+        Where(Expression<Func<TBaseEntity, bool>> filter,
+            bool? includeDeleted = false)
+    {
+        IQueryable<TBaseEntity>? query = _dbSet;
+
+        query = query?
+            .Where(be =>
+                (
+                    includeDeleted.HasValue &&
+                    includeDeleted.Value == true &&
+                    be.DeletedAt != null
+                )
+                ||
+                !includeDeleted.HasValue ||
+                (
+                    !includeDeleted.Value &&
+                    be.DeletedAt == null
+                )
+            )
+            .Where(filter);
+
+        return query;
+    }
+
 
 
     public virtual IEnumerable<TBaseEntity> Get(
@@ -59,8 +101,6 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
         query = includeProperties?.Split(separator, StringSplitOptions.RemoveEmptyEntries)
             .Aggregate(query, (current, includeProperty) =>
                 current.Include(includeProperty));
-
-        //query = query
 
         return orderBy != null ? orderBy(query).ToList() : query.ToList();
     }

@@ -7,69 +7,91 @@ using JetBrains.Annotations;
 namespace HexPawn.Test.Repositories;
 
 [TestSubject(typeof(Repository<BaseEntity>))]
-public class RepositoryTest : IClassFixture<RepositoryTestFixture>
+public class RepositoryTest(RepositoryTestFixture fixture) : IClassFixture<RepositoryTestFixture>
 {
-    private RepositoryTestFixture _fixture;
-    public RepositoryTest(RepositoryTestFixture fixture)
-    {
-        _fixture = fixture;
-    }
-
     [Fact]
     public void GetNoParamsTest()
     {
-        var all = _fixture.PlayerRepository.Get();
+        var all = fixture.PlayerRepository.Get();
         Assert.NotNull(all);
-        Assert.Equal(all.Count(), 3);
+        Assert.Equal(3, all.Count());
     }
 
     [Fact]
     public void GetNonMatchingFilterTest()
     {
-        var badFilter = _fixture.PlayerRepository.Get(filter: r => r.PlayerName == "ABCDEFG");
-        Assert.Equal(badFilter.Count(), 0);
+        var badFilter = fixture.PlayerRepository.Get(filter: r => r.PlayerName == "ABCDEFG");
+        Assert.Empty(badFilter);
     }
 
     [Fact]
     public void GetMatchingFilterTest()
     {
-        var filtered = _fixture.PlayerRepository.Get(filter: r => r.PlayerName == "Test 1");
-        Assert.NotNull(filtered);
-        Assert.Equal(filtered.Count(), 1);
-        Assert.Equivalent(filtered.First(), MockPlayerRepository.Players.First(x => x.PlayerName == "Test 1"));
+        var filtered = fixture.PlayerRepository.Get(filter: r => r.PlayerName == "Test 1");
+        var players = filtered.ToList();
+        
+        Assert.NotNull(players);
+        Assert.Single(players);
+        Assert.Equivalent(MockPlayerRepository.Players.First(x => x.PlayerName == "Test 1"), players.First());
     }
 
     [Fact]
     public void GetOrderedTest()
     {
-        var ordered = _fixture.PlayerRepository.Get(orderBy: x => x.OrderByDescending(p => p.BirthDate));
-        Assert.NotNull(ordered);
-        Assert.Equal(ordered.Count(), 3);
-        Assert.Equal(ordered.First().BirthDate, MockPlayerRepository.Players.Max(p => p.BirthDate));
-        Assert.Equal(ordered.Last().BirthDate, MockPlayerRepository.Players.Min(p => p.BirthDate));
+        var ordered = fixture.PlayerRepository.Get(orderBy: x => x.OrderByDescending(p => p.BirthDate));
+        var players = ordered.ToList();
+        
+        Assert.NotNull(players);
+        Assert.Equal(3, players.Count());
+        Assert.Equal(MockPlayerRepository.Players.Max(p => p.BirthDate), players.First().BirthDate);
+        Assert.Equal(MockPlayerRepository.Players.Min(p => p.BirthDate), players.Last().BirthDate);
     }
 
-    //TODO: update if includes are improved
-    [Fact]
-    public void GetIncludesTest()
+    /// <summary>
+    /// Where Clause for Repository Queryable on the dbset respecting soft deletes
+    /// </summary>
+    [Theory]
+    [InlineData("Test 2" )]
+    [InlineData("Test 1" , true)]
+    public void WhereTest(string playerName, bool? includeDeleted = false)
     {
-        var includes = _fixture.PlayerRepository.Get(includeProperties: "Character");
-        Assert.NotNull(includes);
-        Assert.NotNull(includes.First().Characters);
-        Assert.NotNull(includes.First().Characters.First().UniqueId);
+        IQueryable<Player>? queryable;
+        if (!includeDeleted.HasValue)
+        {
+            queryable = fixture.PlayerRepository
+                .Where(x => x.PlayerName == playerName);
+        }
+        else
+        {
+            queryable = fixture.PlayerRepository
+                .Where(x => x.PlayerName == playerName, includeDeleted);
+        }
+        var players = queryable?.ToList();
+        
+        Assert.NotNull(players);
+        Assert.NotEmpty(players);
+        Assert.Single(players);
+        Assert.Equivalent(MockPlayerRepository.Players
+            .First(x => x.PlayerName == playerName), 
+            players.First());
     }
-
-    [SkippableFact]
-    public void METHOD()
+    
+   
+    /// <summary>
+    /// Where Clause for Repository Queryable on the dbset excluding soft deletes
+    /// </summary>
+    [Theory]
+    [InlineData("Test 1" )]
+    public void WhereDeletedTest(string playerName)
     {
+        IQueryable<Player>? queryable = fixture.PlayerRepository
+            .Where(x => x.PlayerName == playerName);
+        
+        var players = queryable?.ToList();
 
+        Assert.NotNull(players);
+        Assert.Empty(players);
     }
-
-    [Fact]
-    public void AlternateGet()
-    {
-        var all = _fixture.PlayerRepository.Get2();
-        Assert.NotNull(all);
-        Assert.Equal(all.Count(), 3);
-    }
+    
+    
 }

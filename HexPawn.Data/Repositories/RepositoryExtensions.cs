@@ -1,20 +1,31 @@
+
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+using HexPawn.Models;
 
 namespace HexPawn.Data.Repositories;
 
 public static class RepositoryExtensions
 {
-    public static IQueryable<TEntity> Include<TEntity>(this DbSet<TEntity> dbSet,
-        params Expression<Func<TEntity, object>>[] includes)
-        where TEntity : class
+    /// <summary>
+    /// Filter a query for BaseEntities by date
+    /// ex: .Where(a => filterByDate<A>(dateTime)
+    /// ex: .Where(a => filterByDate<A>(dateTime, includeDeleted: true)
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="includeDeleted"></param>
+    /// <typeparam name="TBaseEntity"></typeparam>
+    /// <returns></returns>
+    public static Expression<Func<BaseEntity, bool>> FilterByDate<TBaseEntity>
+        (DateTime dateTime, bool? includeDeleted = false) where TBaseEntity : BaseEntity
     {
-        IQueryable<TEntity> query = null;
-        foreach (var include in includes)
-        {
-            query = dbSet.Include(include);
-        }
-
-        return query ?? dbSet;
+        Expression<Func<BaseEntity, bool>> expression = x =>
+            (x.DeletedAt == null && x.UpdatedOn >= dateTime)
+            || (
+                includeDeleted.HasValue && 
+                !includeDeleted.Value &&  
+                x.DeletedAt != null &&
+                x.DeletedAt >= dateTime);
+        
+        return expression;
     }
 }

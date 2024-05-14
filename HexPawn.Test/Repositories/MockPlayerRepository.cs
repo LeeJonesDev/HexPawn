@@ -16,6 +16,7 @@ internal class MockPlayerRepository
             UniqueId = "4c341274-eb32-4305-af2b-c2f2389a4b4d",
             CreatedAt = new DateTime(2022, 12, 11),
             UpdatedOn = new DateTime(2022, 12, 11),
+            DeletedAt = new DateTime(2024, 3, 1),
             PlayerName = "Test 1",
             EmailAddress = "testEmail1@test.com",
             FistName = null,
@@ -39,6 +40,7 @@ internal class MockPlayerRepository
             UniqueId = "8be73b85-2685-454e-b288-a43b495ceab2",
             CreatedAt = new DateTime(2023, 3, 11),
             UpdatedOn = new DateTime(2023, 3, 11),
+            DeletedAt = null,
             PlayerName = "Test 2",
             EmailAddress = "testEmail2@test.com",
             FistName = null,
@@ -62,6 +64,7 @@ internal class MockPlayerRepository
             UniqueId = "6a1b6e1a-be8d-4540-b51d-5fed1bdff7da",
             CreatedAt = new DateTime(2024, 3, 1),
             UpdatedOn = new DateTime(2024, 3, 5),
+            DeletedAt = null,
             PlayerName = "Test 3",
             EmailAddress = "testEmail3@test.com",
             FistName = null,
@@ -85,8 +88,9 @@ internal class MockPlayerRepository
         var repository = new Mock<IRepository<Player>>();
 
         char[] separator = [','];
+        
 
-
+        // get
         repository
             .Setup(r => r.Get(
                 It.IsAny<Expression<Func<Player, bool>>>(),
@@ -107,6 +111,40 @@ internal class MockPlayerRepository
                            ?? [];
             });
 
+        
+        
+        
+        // where
+        repository
+            .Setup(r => r.Where(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<bool?>()))
+            .Returns(IQueryable<Player> (Expression<Func<Player, bool>> filter, bool? includeDeleted ) =>
+        {
+            var query = Players;
+            var queryable = query.AsQueryable();
+            queryable =  queryable
+                .Where(be =>
+                    (
+                        includeDeleted.HasValue &&
+                        includeDeleted.Value == true &&
+                        be.DeletedAt != null
+                    )
+                    ||
+                    !includeDeleted.HasValue ||
+                    (
+                        !includeDeleted.Value &&
+                        be.DeletedAt == null
+                    )
+                )
+                .Where(filter);
+            
+            return queryable;
+        });
+
+        
+        
+        
+        
+        
         repository
             .Setup(r => r.GetByIDAsync(It.IsAny<int>()).Result)
             .Returns((int id) => Players.FirstOrDefault(p => p.Id == id));

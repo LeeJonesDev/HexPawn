@@ -6,11 +6,20 @@ namespace HexPawn.Data.Repositories.Interfaces;
 
 public interface IRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
-    IOrderedQueryable<TBaseEntity>? Get2(
-        Expression<Func<TBaseEntity, bool>>? filter = null,
-        Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
-        Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null);
+    IQueryable<TBaseEntity>?
+        Where(Expression<Func<TBaseEntity, bool>> filter,
+            bool? includeDeleted = false);
+    
+    
+    
+    // IOrderedQueryable<TBaseEntity>? Get2(
+    //     Expression<Func<TBaseEntity, bool>>? filter = null,
+    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
+    //     Func<IQueryable<TBaseEntity>, IIncludableQueryable<TBaseEntity, object>>? include = null);
 
+    // IQueryable<TBaseEntity> Get2(
+    //     Expression<Func<TBaseEntity, bool>>? filter = null,
+    //     Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null);
     IEnumerable<TBaseEntity> Get(
         Expression<Func<TBaseEntity, bool>>? filter = null,
         Func<IQueryable<TBaseEntity>, IOrderedQueryable<TBaseEntity>>? orderBy = null,
