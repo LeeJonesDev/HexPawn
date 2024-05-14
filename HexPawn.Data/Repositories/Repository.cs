@@ -19,11 +19,11 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     public virtual IQueryable<TBaseEntity> Where(Expression<Func<TBaseEntity, bool>> filter,
             bool? includeDeleted = false)
     {
-        var queryable = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var where = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .Where(filter);
 
-        return queryable;
+        return where;
     }
 
     #region First
@@ -41,31 +41,31 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     public virtual TBaseEntity? FirstOrDefault(Expression<Func<TBaseEntity, bool>> filter,
             bool? includeDeleted = false)
     {
-        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var firstOrDefault = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .FirstOrDefault(filter);
 
-        return first;
+        return firstOrDefault;
     }
 
     public virtual async Task<TBaseEntity> FirstAsync(Expression<Func<TBaseEntity, bool>> filter,
-        bool? includeDeleted = false)
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
     {
-        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var firstAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
-            .FirstAsync(filter);
+            .FirstAsync(filter, cancellationToken);
 
-        return first;
+        return firstAsync;
     }
 
     public virtual async Task<TBaseEntity?> FirstOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
-        bool? includeDeleted = false)
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
     {
-        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var firstOrDefaultAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
-            .FirstOrDefaultAsync(filter);
+            .FirstOrDefaultAsync(filter, cancellationToken);
 
-        return first;
+        return firstOrDefaultAsync;
     }
 
     #endregion
@@ -75,41 +75,41 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     public virtual TBaseEntity Single(Expression<Func<TBaseEntity, bool>> filter,
         bool? includeDeleted = false)
     {
-        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var single = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .Single(filter);
 
-        return first;
+        return single;
     }
 
     public virtual TBaseEntity? SingleOrDefault(Expression<Func<TBaseEntity, bool>> filter,
         bool? includeDeleted = false)
     {
-        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var singleOrDefault = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .SingleOrDefault(filter);
 
-        return first;
+        return singleOrDefault;
     }
 
     public virtual async Task<TBaseEntity> SingleAsync(Expression<Func<TBaseEntity, bool>> filter,
-        bool? includeDeleted = false)
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
     {
-        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var singleAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
-            .SingleAsync(filter);
+            .SingleAsync(filter, cancellationToken);
 
-        return first;
+        return singleAsync;
     }
 
     public virtual async Task<TBaseEntity?> SingleOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
-        bool? includeDeleted = false)
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
     {
-        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var singleOrDefaultAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
-            .SingleOrDefaultAsync(filter);
+            .SingleOrDefaultAsync(filter, cancellationToken);
 
-        return first;
+        return singleOrDefaultAsync;
     }
 
     #endregion
@@ -119,56 +119,154 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     public virtual TBaseEntity Last(Expression<Func<TBaseEntity, bool>> filter,
         bool? includeDeleted = false)
     {
-        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var last = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .Last(filter);
 
-        return first;
+        return last;
     }
 
     public virtual TBaseEntity? LastOrDefault(Expression<Func<TBaseEntity, bool>> filter,
         bool? includeDeleted = false)
     {
-        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var lastOrDefault = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .LastOrDefault(filter);
 
-        return first;
+        return lastOrDefault;
     }
 
     public virtual async Task<TBaseEntity> LastAsync(Expression<Func<TBaseEntity, bool>> filter,
-        bool? includeDeleted = false)
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
     {
-        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var lastAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
-            .LastAsync(filter);
+            .LastAsync(filter, cancellationToken);
 
-        return first;
+        return lastAsync;
     }
 
     public virtual async Task<TBaseEntity?> LastOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
-        bool? includeDeleted = false)
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
     {
-        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+        var lastOrDefaultAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
-            .LastOrDefaultAsync(filter);
+            .LastOrDefaultAsync(filter, cancellationToken);
 
-        return first;
+        return lastOrDefaultAsync;
     }
 
     #endregion
 
-    
+    #region Any
+
+    public virtual bool Any(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var any = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .Any(filter);
+
+        return any;
+    }
+
+    public virtual async Task<bool> AnyAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
+    {
+        var anyAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .AnyAsync(filter, cancellationToken);
+
+        return anyAsync;
+    }
+
+    #endregion
+
+    #region All
+
+    public virtual bool All(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var all = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .All(filter);
+
+        return all;
+    }
+
+    public virtual async Task<bool> AllAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default)
+    {
+        var allAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .AllAsync(filter, cancellationToken);
+
+        return allAsync;
+    }
+
+    #endregion
+
+    #region Min
+
+    public virtual TBaseEntity? Min(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var min = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .Min();
+
+        return min;
+    }
+
+    public virtual async Task<TBaseEntity?> MinAsync(bool? includeDeleted = false,
+        CancellationToken cancellationToken = default)
+    {
+        var minAsync = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .MinAsync(cancellationToken);
+
+        return minAsync;
+    }
+
+    public virtual TBaseEntity? MinBy<TKey>(
+        Expression<Func<TBaseEntity,TKey>> keySelector,
+        bool? includeDeleted = false)
+    {
+        var min = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .MinBy(keySelector);
+
+        return min;
+    }
 
 
-    //any
+    #endregion
+
+    #region Max
+
+
+
+    #endregion
+
+    #region Average
+
+
+
+    #endregion
+
+    #region Sum
+
+
+
+    #endregion
+
+    #region Count
+
+
+
+    #endregion
+
     //count
-    //all
-    //contains
-
-
-    //min
-    //minby
     //max
     //maxby
     //avg
