@@ -1,3 +1,4 @@
+using System.Data;
 using System.Linq.Expressions;
 using HexPawn.Data.Repositories.Interfaces;
 using HexPawn.Models;
@@ -8,7 +9,6 @@ namespace HexPawn.Data.Repositories;
 public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
     private readonly DbSet<TBaseEntity>? _dbSet = context.Set<TBaseEntity>();
-    private static readonly char[] separator = [','];
 
     /// <summary>
     /// Perform a Where filter on the dbset while respecting soft deletes
@@ -16,28 +16,157 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
     /// <param name="filter"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public virtual IQueryable<TBaseEntity>
-        Where(Expression<Func<TBaseEntity, bool>> filter,
+    public virtual IQueryable<TBaseEntity> Where(Expression<Func<TBaseEntity, bool>> filter,
             bool? includeDeleted = false)
     {
-        IQueryable<TBaseEntity> queryable = _dbSet
+        var queryable = (_dbSet ?? throw new DataException("_dbSet should never be null"))
             .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
             .Where(filter);
 
         return queryable;
     }
 
+    #region First
 
-    //single
-    //singleordefault
+    public virtual TBaseEntity First(Expression<Func<TBaseEntity, bool>> filter,
+            bool? includeDeleted = false)
+    {
+        var first =  (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .First(filter);
+
+        return first;
+    }
+
+    public virtual TBaseEntity? FirstOrDefault(Expression<Func<TBaseEntity, bool>> filter,
+            bool? includeDeleted = false)
+    {
+        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .FirstOrDefault(filter);
+
+        return first;
+    }
+
+    public virtual async Task<TBaseEntity> FirstAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .FirstAsync(filter);
+
+        return first;
+    }
+
+    public virtual async Task<TBaseEntity?> FirstOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .FirstOrDefaultAsync(filter);
+
+        return first;
+    }
+
+    #endregion
+
+    #region Single
+
+    public virtual TBaseEntity Single(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .Single(filter);
+
+        return first;
+    }
+
+    public virtual TBaseEntity? SingleOrDefault(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .SingleOrDefault(filter);
+
+        return first;
+    }
+
+    public virtual async Task<TBaseEntity> SingleAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .SingleAsync(filter);
+
+        return first;
+    }
+
+    public virtual async Task<TBaseEntity?> SingleOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .SingleOrDefaultAsync(filter);
+
+        return first;
+    }
+
+    #endregion
+
+    #region Last
+
+    public virtual TBaseEntity Last(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .Last(filter);
+
+        return first;
+    }
+
+    public virtual TBaseEntity? LastOrDefault(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .LastOrDefault(filter);
+
+        return first;
+    }
+
+    public virtual async Task<TBaseEntity> LastAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .LastAsync(filter);
+
+        return first;
+    }
+
+    public virtual async Task<TBaseEntity?> LastOrDefaultAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false)
+    {
+        var first = await (_dbSet ?? throw new DataException("_dbSet should never be null"))
+            .Where(RepositoryExtensions.FilterSoftDeletes<TBaseEntity>(includeDeleted))
+            .LastOrDefaultAsync(filter);
+
+        return first;
+    }
+
+    #endregion
+
+    
+
+
     //any
     //count
     //all
     //contains
-    //first
-    //firstordefault
-    //last
-    //lastordefault
+
+
     //min
     //minby
     //max

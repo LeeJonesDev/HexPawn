@@ -89,33 +89,6 @@ internal class MockPlayerRepository
     {
         var repository = new Mock<IRepository<Player>>();
 
-        //char[] separator = [','];
-
-        //
-        // // get
-        // repository
-        //     .Setup(r => r.Get(
-        //         It.IsAny<Expression<Func<Player, bool>>>(),
-        //         It.IsAny<Func<IQueryable<Player>, IOrderedQueryable<Player>>>(),
-        //         It.IsAny<string>()))
-        //     .Returns(IEnumerable<Player> (
-        //         Expression<Func<Player, bool>>? filter = null,
-        //         Func<IQueryable<Player>, IOrderedQueryable<Player>>? orderBy = null,
-        //         string? includeProperties = "") =>
-        //     {
-        //         var query = Players;
-        //         var queryable = query.AsQueryable();
-        //         queryable = filter != null ? queryable.Where(filter) : queryable;
-        //         queryable = includeProperties?.Split(separator, StringSplitOptions.RemoveEmptyEntries).Aggregate(queryable, (current, s) => current.Include(s));
-        //             return (orderBy != null && queryable != null
-        //                        ? orderBy(queryable).ToList()
-        //                        : queryable?.ToList())
-        //                    ?? [];
-        //     });
-
-
-
-
         // where
         repository
             .Setup(r => r.Where(
