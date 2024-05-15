@@ -332,10 +332,113 @@ public class RepositoryTests(RepositoryTestFixture fixture) : IClassFixture<Repo
 
     #endregion
 
+    #region Any
 
+    [Theory]
+    [InlineData("Test 2")]
+    [InlineData("Test 1", true)]
+    public void AnyTest(string playerName, bool? includeDeleted = false)
+    {
+        var any = !includeDeleted.HasValue
+            ? fixture.PlayerRepository
+                .Any(x => x.PlayerName == playerName)
+            : fixture.PlayerRepository
+                .Any(x => x.PlayerName == playerName, includeDeleted);
 
+        Assert.True(any);
+        Assert.Equivalent(MockPlayerRepository.Players
+                .Any(x => x.PlayerName == playerName),
+            any);
+    }
 
+    [Theory]
+    [InlineData("Test 2")]
+    [InlineData("Test 1", true)]
+    public async void AnyAsyncTest(string playerName, bool? includeDeleted = false,
+        CancellationToken cancellationToken = default)
+    {
+        var firstPlayer = !includeDeleted.HasValue
+            ? await fixture.PlayerRepository
+                // ReSharper disable once MethodSupportsCancellation testing without passing in
+                .AnyAsync(x => x.PlayerName == playerName)
+            : await fixture.PlayerRepository
+                .AnyAsync(x => x.PlayerName == playerName,
+                    includeDeleted,
+                    cancellationToken);
 
+        Assert.True(firstPlayer);
+        Assert.Equivalent(MockPlayerRepository.Players
+                .Any(x => x.PlayerName == playerName),
+            firstPlayer);
+    }
+
+    #endregion
+
+    #region All
+
+    [Theory]
+    [InlineData()]
+    [InlineData(null)]
+    [InlineData(false)]
+    [InlineData( true)]
+    public void AllTest(bool? includeDeleted = false)
+    {
+        var allHaveEmail = !includeDeleted.HasValue
+            ? fixture.PlayerRepository
+                .All(x => !string.IsNullOrWhiteSpace(x.EmailAddress))
+            : fixture.PlayerRepository
+                .All(x =>  !string.IsNullOrWhiteSpace(x.EmailAddress), includeDeleted);
+
+        Assert.True(allHaveEmail);
+
+        var allDeleted = !includeDeleted.HasValue
+            ? fixture.PlayerRepository
+                .All(x => x.DeletedAt != null)
+            : fixture.PlayerRepository
+                .All(x =>  x.DeletedAt != null);
+
+        if (includeDeleted is true)
+        {
+            Assert.False(allDeleted);
+        }
+        else
+        {
+            Assert.True(!allDeleted);
+        }
+    }
+
+    [Theory]
+    [InlineData()]
+    [InlineData(null)]
+    [InlineData(false)]
+    [InlineData( true)]
+    public async void AllAsyncTest(bool? includeDeleted = false)
+    {
+        var allHaveEmail = !includeDeleted.HasValue
+            ? await fixture.PlayerRepository
+                .AllAsync(x => !string.IsNullOrWhiteSpace(x.EmailAddress))
+            : await fixture.PlayerRepository
+                .AllAsync(x =>  !string.IsNullOrWhiteSpace(x.EmailAddress), includeDeleted);
+
+        Assert.True(allHaveEmail);
+
+        var allDeleted = !includeDeleted.HasValue
+            ? await fixture.PlayerRepository
+                .AllAsync(x => x.DeletedAt != null)
+            : await fixture.PlayerRepository
+                .AllAsync(x =>  x.DeletedAt != null);
+
+        if (includeDeleted is true)
+        {
+            Assert.False(allDeleted);
+        }
+        else
+        {
+            Assert.True(!allDeleted);
+        }
+    }
+
+    #endregion
 
 
 

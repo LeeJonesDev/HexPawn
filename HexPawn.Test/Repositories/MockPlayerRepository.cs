@@ -168,12 +168,12 @@ internal class MockPlayerRepository
                 bool? includeDeleted = false,
                 CancellationToken cancellationToken = default) =>
             {
-                var first =  Players
+                var firstOrDefault =  Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .FirstOrDefault(filter);
 
-                return first;
+                return firstOrDefault;
             });
 
         #endregion
@@ -187,12 +187,12 @@ internal class MockPlayerRepository
             .Returns(Player
                 (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
             {
-                var first = Players
+                var single = Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .Single(filter);
 
-                return first;
+                return single;
             });
 
         repository
@@ -202,12 +202,12 @@ internal class MockPlayerRepository
             .Returns(Player?
             (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
             {
-                var firstOrDefault = Players
+                var singleOrDefault = Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .SingleOrDefault(filter);
 
-                return firstOrDefault;
+                return singleOrDefault;
             });
 
         //TODO: write cancellation token test & scaffold
@@ -221,12 +221,12 @@ internal class MockPlayerRepository
                     bool? includeDeleted = false,
                     CancellationToken cancellationToken = default) =>
             {
-                var first =  Players
+                var single =  Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .Single(filter);
 
-                return first;
+                return single;
             });
 
         //TODO: write cancellation token test & scaffold
@@ -240,12 +240,12 @@ internal class MockPlayerRepository
                 bool? includeDeleted = false,
                 CancellationToken cancellationToken = default) =>
             {
-                var first =  Players
+                var singleOrDefault =  Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .SingleOrDefault(filter);
 
-                return first;
+                return singleOrDefault;
             });
 
         #endregion
@@ -259,12 +259,12 @@ internal class MockPlayerRepository
             .Returns(Player
                 (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
             {
-                var first = Players
+                var last = Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .Last(filter);
 
-                return first;
+                return last;
             });
 
         repository
@@ -274,12 +274,12 @@ internal class MockPlayerRepository
             .Returns(Player?
             (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
             {
-                var firstOrDefault = Players
+                var lastOrDefault = Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .LastOrDefault(filter);
 
-                return firstOrDefault;
+                return lastOrDefault;
             });
 
         //TODO: write cancellation token test & scaffold
@@ -293,12 +293,12 @@ internal class MockPlayerRepository
                     bool? includeDeleted = false,
                     CancellationToken cancellationToken = default) =>
             {
-                var first =  Players
+                var last =  Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .Last(filter);
 
-                return first;
+                return last;
             });
 
         //TODO: write cancellation token test & scaffold
@@ -312,17 +312,91 @@ internal class MockPlayerRepository
                 bool? includeDeleted = false,
                 CancellationToken cancellationToken = default) =>
             {
-                var first =  Players
+                var lastOrDefault =  Players
                     .AsQueryable()
                     .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
                     .LastOrDefault(filter);
 
-                return first;
+                return lastOrDefault;
             });
 
         #endregion
 
+        #region Any
 
+        repository
+            .Setup(r => r.Any(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(bool
+                (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var any = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Any(filter);
+
+                return any;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.AnyAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(bool
+            (Expression<Func<Player, bool>> filter,
+                bool? includeDeleted = false,
+                CancellationToken cancellationToken = default) =>
+            {
+                var any =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .Any(filter);
+
+                return any;
+            });
+
+        #endregion
+
+        #region All
+
+        repository
+            .Setup(r => r.All(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>()))
+            .Returns(bool
+                (Expression<Func<Player, bool>> filter, bool? includeDeleted = false) =>
+            {
+                var all = Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .All(filter);
+
+                return all;
+            });
+
+        //TODO: write cancellation token test & scaffold
+        repository
+            .Setup(r => r.AllAsync(
+                It.IsAny<Expression<Func<Player, bool>>>(),
+                It.IsAny<bool?>(),
+                It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(bool
+            (Expression<Func<Player, bool>> filter,
+                bool? includeDeleted = false,
+                CancellationToken cancellationToken = default) =>
+            {
+                var all =  Players
+                    .AsQueryable()
+                    .Where(RepositoryExtensions.FilterSoftDeletes<Player>(includeDeleted))
+                    .All(filter);
+
+                return all;
+            });
+
+        #endregion
 
         repository
             .Setup(r => r.GetByIDAsync(It.IsAny<int>()).Result)

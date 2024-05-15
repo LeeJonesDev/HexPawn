@@ -243,7 +243,6 @@ public class Repository<TBaseEntity>(DbContext context) : IRepository<TBaseEntit
         return min;
     }
 
-
     #endregion
 
     #region Max

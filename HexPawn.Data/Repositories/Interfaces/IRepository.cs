@@ -62,6 +62,26 @@ public interface IRepository<TBaseEntity> where TBaseEntity : BaseEntity
 
     #endregion
 
+    #region Any
+
+    bool Any(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    Task<bool> AnyAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    #endregion
+
+    #region All
+
+    bool All(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false);
+
+    Task<bool> AllAsync(Expression<Func<TBaseEntity, bool>> filter,
+        bool? includeDeleted = false, CancellationToken cancellationToken = default);
+
+    #endregion
+
     Task<TBaseEntity?> GetByIDAsync(int id);
     Task<TBaseEntity?> GetByUniqueIdAsync(string id);
     Task InsertAsync(TBaseEntity entity);
